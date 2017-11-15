@@ -4,7 +4,9 @@ angular.module('personService', []).factory('PersonService', ['$http', function 
     var PersonService = {};
     PersonService.get = function () {
         return $http.get(urlBase + '/Persons');
-    };
+    };  
+
+    
 
     PersonService.delete = function (person) {
         return $http({
