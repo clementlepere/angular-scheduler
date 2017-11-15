@@ -15,6 +15,8 @@ angular.module('weeklyScheduler')
       var i;
       // Calculate week width distribution
       var tickcount = model.nbWeeks;
+
+      // console.log('model:', model); 
       var ticksize = 100 / tickcount;
       var gridItemEl = GRID_TEMPLATE.css({width: ticksize + '%'});
       var now = model.minDate.clone().startOf('week');

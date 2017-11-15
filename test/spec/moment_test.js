@@ -1,7 +1,7 @@
 describe('weeklyScheduler moment tests', function () {
   'use strict';
 
-  var date = '2015-11-20';
+  var date = '2016-11-20';
 
   describe('when using moment locales', function () {
 

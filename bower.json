@@ -3,7 +3,7 @@
   "appPath": "app",
   "version": "0.0.5",
   "description": "A scheduler using weeks for AngularJS",
-  "homepage": "https://github.com/fmaturel/angular-weekly-scheduler",
+  "homepage": "https://github.com/clementlepere/angular-scheduler",
   "license": "MIT",
   "main": [
     "dist/js/ng-weekly-scheduler.js"

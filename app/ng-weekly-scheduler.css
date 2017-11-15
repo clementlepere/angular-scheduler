@@ -1,207 +1,279 @@
-/*---------------------------------------------------------------- Scheduler */
-.scheduler {
-  display: block;
-  background: #fff;
-  border: 1px solid #ccc;
-  margin-bottom: 10px;
-}
+    /*---------------------------------------------------------------- Icons */
 
-.scheduler::after {
-  content: "";
-  display: block;
-  clear: both;
-}
+    .scheduler-modal__actions {
+      display: flex;
+      width: 10%;
+      height: 60%;
+      margin: 18px 0;
+    }
 
-.scheduler .labels, .scheduler .schedule-area-container {
-  display: block;
-  float: left;
-}
+    .scheduler-modal--delete {
+      display: inline-block;
+      width: 80px;
+      height: 30px;
+      border-radius: 0 0 0 4px;
+      cursor: pointer;
+    }
 
-.scheduler .labels {
-  width: 15%;
-  color: #666;
-  border-right: 1px solid #ddd;
-}
+    .scheduler-modal--delete:before {
+      content: '';
+      display: inline-block;
+      width: 100%;
+      height: 100%;
+      background: url('/images/delete.svg') center center no-repeat;
+    }
 
-.scheduler .labels .srow {
-  padding: 0 5px;
-  border-bottom: 1px solid #ddd;
-}
+    .scheduler-modal--add {
+      display: inline-block;
+      width: 80px;
+      height: 30px;
+      border-radius: 0 0 0 4px;
+      cursor: pointer;
+    }
 
-.scheduler .schedule-area-container {
-  overflow-x: scroll;
-  width: 85%;
-}
+    .scheduler-modal--add:before {
+      content: '';
+      display: inline-block;
+      width: 100%;
+      height: 100%;
+      background: url('/images/add.svg') center center no-repeat;
+    }
 
-.scheduler .srow {
-  position: relative;
-  height: 35px;
-  line-height: 35px;
-}
+    .scheduler-modal--edit {
+      display: inline-block;
+      width: 80px;
+      height: 30px;
+      border-radius: 0 0 0 4px;
+      cursor: pointer;
+    }
 
-.scheduler .timestamps {
-  color: #aaa;
-  position: relative;
-}
+    .scheduler-modal--edit:before {
+      content: '';
+      display: inline-block;
+      width: 100%;
+      height: 100%;
+      background: url('/images/edit.svg') center center no-repeat;
+    }
+    /*---------------------------------------------------------------- Scheduler */
 
-.scheduler .timestamps .grid-container div {
-  border-right: 1px solid #eee;
-  cursor: pointer;
-}
+    .shortText {
+      text-overflow: ellipsis;
+      width: 250px;
+      white-space: nowrap;
+      overflow: hidden;
+    }
 
-.scheduler .timestamps .grid-container div:hover {
-  background-color: #f0f0f0;
-}
+    .scheduler {
+      display: block;
+      background: #fff;
+      border: 1px solid #ccc;
+      margin-bottom: 10px;
+    }
 
-.scheduler .timestamps .grid-container div:last-child {
-  border-right: none;
-}
+    .scheduler::after {
+      content: "";
+      display: block;
+      clear: both;
+    }
 
-/*------------------------------------------------------------- Multi-slider */
-multi-slider {
-  position: relative;
-  display: block;
-  height: 35px;
-  overflow: hidden;
-}
+    .scheduler .labels,
+    .scheduler .schedule-area-container {
+      display: block;
+      float: left;
+    }
 
-multi-slider .slot {
-  position: absolute;
-  top: 5px;
-  bottom: 5px;
-  border-radius: 3px;
-  text-align: center;
-  white-space: nowrap;
-  line-height: 25px;
-  color: #fff;
-}
+    .scheduler .labels {
+      width: 15%;
+      color: #666;
+      border-right: 1px solid #ddd;
+    }
 
-multi-slider .ghost {
-  background: #5ab57a;
-  opacity: 0.6;
-  display: none;
-  cursor: pointer;
-}
+    .scheduler .labels .srow {
+      padding: 0 5px;
+      border-bottom: 1px solid #ddd;
+    }
 
-multi-slider:hover .ghost {
-  display: block;
-}
+    .scheduler .schedule-area-container {
+      overflow-x: scroll;
+      width: 85%;
+    }
 
-multi-slider.slot-hover .ghost {
-  display: none;
-}
+    .scheduler .srow {
+      position: relative;
+      height: 35px;
+      line-height: 35px;
+    }
 
-multi-slider.dragging .ghost {
-  display: none;
-}
+    .scheduler .timestamps {
+      color: #aaa;
+      position: relative;
+    }
 
-multi-slider weekly-slot {
-  -webkit-transition: background 0.1s ease-in;
-  cursor: all-scroll;
-  min-width: 10px !important;
-  background: #4eb8d5;
-}
+    .scheduler .timestamps .grid-container div {
+      border-right: 1px solid #eee;
+      cursor: pointer;
+    }
 
-multi-slider weekly-slot.disable {
-  cursor: not-allowed;
-  color: #666;
-  background: #c0c0c0;
-}
+    .scheduler .timestamps .grid-container div:hover {
+      background-color: #f0f0f0;
+    }
 
-multi-slider weekly-slot .handle {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-}
+    .scheduler .timestamps .grid-container div:last-child {
+      border-right: none;
+    }
+    /*------------------------------------------------------------- Multi-slider */
 
-multi-slider weekly-slot .handle.left, multi-slider weekly-slot .handle.right {
-  width: 10px;
-  background: #000;
-  cursor: col-resize;
-  opacity: 0.1;
-}
+    multi-slider {
+      position: relative;
+      display: block;
+      height: 35px;
+      overflow: hidden;
+    }
 
-multi-slider weekly-slot.disable .handle {
-  cursor: not-allowed;
-}
+    multi-slider .slot {
+      position: absolute;
+      top: 5px;
+      bottom: 5px;
+      border-radius: 3px;
+      text-align: center;
+      white-space: nowrap;
+      line-height: 25px;
+      color: #fff;
+    }
 
-multi-slider weekly-slot .handle.left:hover, multi-slider weekly-slot .handle.right:hover {
-  opacity: 0.3;
-}
+    multi-slider .ghost {
+      background: #5ab57a;
+      opacity: 0.6;
+      display: none;
+      cursor: pointer;
+    }
 
-multi-slider weekly-slot .handle.left {
-  left: 0;
-}
+    multi-slider:hover .ghost {
+      display: block;
+    }
 
-multi-slider weekly-slot .handle.right {
-  right: 0;
-}
+    multi-slider.slot-hover .ghost {
+      display: none;
+    }
 
-multi-slider weekly-slot:not(.disable) .remove {
-  display: none;
-  cursor: pointer;
-  float: right;
-  margin-right: -30px;
-  width: 25px;
-  background: red;
-  border-radius: 20%;
-  opacity: 0.5;
-  transform: translateY(-100%);
-}
+    multi-slider.dragging .ghost {
+      display: none;
+    }
 
-multi-slider weekly-slot:not(.disable) .remove:before {
-  position: absolute;
-  content: "";
-  left: -5px;
-  width: 10px;
-  height: 25px;
-}
+    multi-slider weekly-slot {
+      -webkit-transition: background 0.1s ease-in;
+      transition: background 0.1s ease-in;
+      cursor: all-scroll;
+      min-width: 10px !important;
+      background: #4eb8d5;
+    }
 
-multi-slider weekly-slot:hover .remove {
-  display: block;
-}
+    multi-slider weekly-slot.disable {
+      cursor: not-allowed;
+      color: #666;
+      background: #c0c0c0;
+    }
 
-multi-slider weekly-slot .remove:hover {
-  opacity: 1;
-}
+    multi-slider weekly-slot .handle {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+    }
 
-multi-slider weekly-slot.active {
-  z-index: 10;
-  background: #5ab57a;
-  color: #fff;
-}
+    multi-slider weekly-slot .handle.left,
+    multi-slider weekly-slot .handle.right {
+      width: 10px;
+      background: #000;
+      cursor: col-resize;
+      opacity: 0.1;
+    }
 
-.grid-container {
-  width: 100%;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  border-bottom: 1px solid #ddd;
-}
+    multi-slider weekly-slot.disable .handle {
+      cursor: not-allowed;
+    }
 
-.grid-container div {
-  float: left;
-  height: 34px;
-  overflow: hidden;
-  text-align: center;
-}
+    multi-slider weekly-slot .handle.left:hover,
+    multi-slider weekly-slot .handle.right:hover {
+      opacity: 0.3;
+    }
 
-.grid-container.striped div:nth-child(even) {
-  background: #fafafa;
-}
+    multi-slider weekly-slot .handle.left {
+      left: 0;
+    }
 
-.github-fork-ribbon:after {
-  line-height: 1em;
-}
+    multi-slider weekly-slot .handle.right {
+      right: 0;
+    }
 
-/*--------------------------------------------------------------- Animations */
-.schedule-animate {
-  transition: opacity 200ms ease-out;
-}
-.schedule-animate.ng-enter, .schedule-animate.ng-hide-remove {
-  opacity: 0;
-}
-.schedule-animate.ng-leave, .schedule-animate.ng-hide-add {
-  display: none;
-  opacity: 1;
-}
+    multi-slider weekly-slot:not(.disable) .remove {
+      display: none;
+      cursor: pointer;
+      float: right;
+      margin-right: -30px;
+      width: 25px;
+      background: red;
+      border-radius: 20%;
+      opacity: 0.5;
+      transform: translateY(-100%);
+    }
+
+    multi-slider weekly-slot:not(.disable) .remove:before {
+      position: absolute;
+      content: "";
+      left: -5px;
+      width: 10px;
+      height: 25px;
+    }
+
+    multi-slider weekly-slot:hover .remove {
+      display: block;
+    }
+
+    multi-slider weekly-slot .remove:hover {
+      opacity: 1;
+    }
+
+    multi-slider weekly-slot.active {
+      z-index: 10;
+      background: #5ab57a;
+      color: #fff;
+    }
+
+    .grid-container {
+      width: 100%;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .grid-container div {
+      float: left;
+      height: 34px;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .grid-container.striped div:nth-child(even) {
+      background: #fafafa;
+    }
+
+    .github-fork-ribbon:after {
+      line-height: 1em;
+    }
+    /*--------------------------------------------------------------- Animations */
+
+    .schedule-animate {
+      transition: opacity 200ms ease-out;
+    }
+
+    .schedule-animate.ng-enter,
+    .schedule-animate.ng-hide-remove {
+      opacity: 0;
+    }
+
+    .schedule-animate.ng-leave,
+    .schedule-animate.ng-hide-add {
+      display: none;
+      opacity: 1;
+    }
