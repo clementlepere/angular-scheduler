@@ -36,12 +36,10 @@
       <weekly-scheduler class="scheduler" items="model.items" on-change="demo.doSomething" on-delete="demo.doSomething" options="model.options">
         <div class="srow">{{::$index + 1}}. {{item.label}}</div>
       </weekly-scheduler>
-      <div id="popupContainer" class="pull-left">
-        <md-button class="md-raised md-primary" role="button" aria-label="Follow" ng-click="deletePersons($event)">Delete persons</md-button>
-      </div>
-      <div class="pull-right">
-        <!-- <md-button class="md-raised" role="button" ng-click="model.items.push({label: 'New Item'})">Add new person</md-button> -->
-        <md-button class="md-raised" role="button" ng-click="addItem()">Add new person</md-button>
+      <div layout="row" layout-align="space-between center">
+        <md-button class="md-raised md-primary md-cornered" role="button" ng-click="deletePersons()">Delete persons</md-button>
+        <md-button class="md-raised md-primary md-cornered" role="button" ng-click="createVacation()">Add vacations</md-button>        
+        <md-button class="md-raised md-primary md-cornered" role="button" ng-click="addNewPerson()">Add new person</md-button>
       </div>
     </div>
   </div>
@@ -55,8 +53,8 @@
   <script src="/vendor/angular-material/angular-material.js"></script>
   <script src="/vendor/angular-messages/angular-messages.js"></script>
   <script src="/js/demo-app.js"></script>
-  <script src="/js/demo-app.service.js"></script>
-
+  <script src="/js/demo-app.person.service.js"></script>
+  <script src="/js/demo-app.vacation.service.js"></script>  
 </body>
 
 </html>

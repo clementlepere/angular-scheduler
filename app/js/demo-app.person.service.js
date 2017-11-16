@@ -1,23 +1,21 @@
 angular.module('personService', []).factory('PersonService', ['$http', function ($http) {
 
-    var urlBase = 'http://localhost:63915/api';
+    var urlBase = 'http://localhost:63915/api/persons/';
     var PersonService = {};
     PersonService.get = function () {
-        return $http.get(urlBase + '/Persons');
+        return $http.get(urlBase);
     };  
-
-    
 
     PersonService.delete = function (person) {
         return $http({
-            url: urlBase + '/Persons/' + person.Id,
+            url: urlBase + person.Id,
             method: 'DELETE'
         });
     };
 
     PersonService.update = function (person) {
         return $http({
-            url: urlBase + '/Persons/' + person.Id,
+            url: urlBase + person.Id,
             method: 'PUT',
             data: person
         });
@@ -25,7 +23,7 @@ angular.module('personService', []).factory('PersonService', ['$http', function 
 
     PersonService.create = function (person) {
         return $http({
-            url: urlBase + '/Persons/',
+            url: urlBase,
             method: 'POST',
             data: person
         });

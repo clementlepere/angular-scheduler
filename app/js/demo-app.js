@@ -22,8 +22,43 @@ angular.module('demoApp', ['ngAnimate', 'weeklyScheduler', 'weeklySchedulerI18N'
       $scope.status = '  ';
       $scope.customFullscreen = false;
 
+      $scope.model = {
+        locale: localeService.$locale.id,
+        options: { /*monoSchedule: true*/ }
+      };
 
-      $scope.addItem = function (ev) {
+      getPersons();
+
+      $scope.createVacation = function (ev) {
+        var add = $mdDialog.confirm({
+          controller: CreateVacation,
+          templateUrl: 'js/demo-app.create.html',
+          parent: angular.element(document.body),
+          targetEvent: ev,
+          locals: {
+            persons: this.persons,
+          }
+        });
+        $mdDialog.show(add);
+
+        function CreateVacation($scope, $mdDialog, persons) {
+          $scope.persons = persons;
+          $scope.getSelectedText = function () {
+            console.log($scope.selectedPerson);
+            if ($scope.selectedPerson !== undefined) {
+              return 'You have selected: ' + $scope.selectedPerson.Name;
+            } else {
+              return 'Please select a person';
+            }
+          };
+
+          $scope.cancel = function () {
+            $mdDialog.cancel();
+          };
+        }
+      };
+
+      $scope.addNewPerson = function (ev) {
         var add = $mdDialog.confirm({
           controller: AddController,
           templateUrl: 'js/demo-app.add.html',
@@ -35,7 +70,7 @@ angular.module('demoApp', ['ngAnimate', 'weeklyScheduler', 'weeklySchedulerI18N'
         });
         $mdDialog.show(add);
 
-        function AddController($scope, $mdDialog, persons) {
+        function AddController($scope, persons) {
           $scope.persons = persons;
           $scope.person = {
             Name: '',
@@ -47,8 +82,13 @@ angular.module('demoApp', ['ngAnimate', 'weeklyScheduler', 'weeklySchedulerI18N'
             console.log('person:' + person.Name);
             PersonService.create(person).then(() => {
               console.log('person created');
-              refreshPersonsList();
+              addPersonInList(person);
+              // getPersons();
             });
+
+            $scope.cancel = function () {
+              $mdDialog.cancel();
+            };
           };
         }
       };
@@ -68,43 +108,41 @@ angular.module('demoApp', ['ngAnimate', 'weeklyScheduler', 'weeklySchedulerI18N'
         function DeleteController($scope, $mdDialog, persons) {
           $scope.persons = persons;
 
-          $scope.alert = function (person) {
-            console.log(person);
-          };
-
-          $scope.hide = function () {
-            $mdDialog.hide();
-          };
-
           $scope.deletePerson = function (person, index) {
-            console.log(index);
             PersonService.delete(person).then(() => {
               $scope.persons.splice(index, 1);
-              refreshPersonsList();
+              deletePersonInList(index);
             });
           };
-          this.personsChanged = -0;
-          $scope.$watch('persons', function () {
-            this.personsChanged = -0;
-            console.log('persons changed');
-          }, true);
-
+          
           $scope.cancel = function () {
             $mdDialog.cancel();
           };
         }
       };
 
-      $scope.model = {
-        locale: localeService.$locale.id,
-        options: { /*monoSchedule: true*/ }
-      };
+      function deletePersonInList(index) {
+        $timeout(function () {
+          $scope.model.items.splice(index, 1);
+        }, 100);
+      }
 
-      getPersons();
-
-      function refreshPersonsList() {
-        $scope.model.items = [];
-        getPersons();
+      function addPersonInList(person) {
+        $timeout(function () {
+          $scope.model.items = $scope.model.items.concat(
+            [{
+              label: person.Name,
+              schedules: [{
+                  start: moment('2017-05-03').toDate(),
+                  end: moment('2018-02-01').toDate()
+                },
+                // {
+                //   start: moment('2016-11-20').toDate(),
+                //   end: moment('2017-02-01').toDate()
+                // }
+              ]
+            }]);
+        }, 100);
       }
 
       function getPersons() {
@@ -115,57 +153,13 @@ angular.module('demoApp', ['ngAnimate', 'weeklyScheduler', 'weeklySchedulerI18N'
             this.persons = persons.data;
             $scope.model.items = [];
             persons.data.forEach(person => {
-              $timeout(function () {
-                $scope.model.items = $scope.model.items.concat(
-                  [{
-                    label: person.Name,
-                    schedules: [{
-                        start: moment('2017-05-03').toDate(),
-                        end: moment('2018-02-01').toDate()
-                      },
-                      // {
-                      //   start: moment('2016-11-20').toDate(),
-                      //   end: moment('2017-02-01').toDate()
-                      // }
-                    ]
-                  }]);
-              }, 1000);
+              addPersonInList(person);
             });
           })
           .catch(function (error) {
             $scope.status = 'Unable to load customer data: ' + error.message;
           });
       }
-
-
-
-      // $timeout(function () {
-      //   $scope.model.items = $scope.model.items.concat([{
-      //       label: 'Pierre',
-      //       schedules: [{
-      //           start: moment('2016-05-03').toDate(),
-      //           end: moment('2017-02-01').toDate()
-      //         },
-      //         {
-      //           start: moment('2015-11-20').toDate(),
-      //           end: moment('2016-02-01').toDate()
-      //         }
-      //       ]
-      //     }
-      //     , {
-      //       label: 'Paul',
-      //       schedules: [{
-      //           start: moment('2017-08-09').toDate(),
-      //           end: moment('2017-08-21').toDate()
-      //         },
-      //         {
-      //           start: moment('2017-09-12').toDate(),
-      //           end: moment('2017-10-12').toDate()
-      //         }
-      //       ]
-      //     }
-      //   ]);
-      // }, 100);
 
       this.doSomething = function (itemIndex, scheduleIndex, scheduleValue) {
         $log.debug('The model has changed!', itemIndex, scheduleIndex, scheduleValue);
