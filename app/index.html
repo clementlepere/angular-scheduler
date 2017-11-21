@@ -15,7 +15,7 @@
 </head>
 
 <body class="container-fluid" ng-app="demoApp">
-  <div class="row" ng-controller="DemoController as demo">
+  <div class="row" ng-controller="DemoController as ctrl">
     <div class="col-xs-10 col-xs-offset-1">
 
       <h1 class="md-display-3">Angularjs weekly scheduler</h1>
@@ -33,7 +33,7 @@
         </select>
       </div> -->
 
-      <weekly-scheduler class="scheduler" items="model.items" on-change="demo.doSomething" on-delete="demo.doSomething" options="model.options">
+      <weekly-scheduler class="scheduler" items="model.items" on-change="ctrl.doSomething" on-delete="ctrl.doSomething" options="model.options">
         <div class="srow">{{::$index + 1}}. {{item.label}}</div>
       </weekly-scheduler>
       <div layout="row" layout-align="space-between center">

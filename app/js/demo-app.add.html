@@ -1,28 +1,26 @@
-<md-dialog type="text/ng-template" id="demo-app.add.html" flex="66">
-    <form class="scheduler-modal">
+<md-dialog type="text/ng-template" id="demo-app.add.html" flex="50">
+    <form class="scheduler-modal md-dialog-content">
         <md-dialog-content>
-            <div class="md-dialog-content">
-                <h2 class="md-display-1">Add person</h2>
-                <md-card-content>
-                    <md-content style="width: 400px;">
-                        <div layout="column" layout-padding="" ng-cloak="">
-                            <md-content class="md-no-momentum">
-                                <md-input-container class="md-icon-float md-block">
-                                    <input placeholder="Name" type="text" ng-required="true" ng-model="person.Name">
-                                </md-input-container>
+            <h2 class="md-display-1">Add person</h2>
+            <md-card-content>
+                <md-content>
+                    <div layout="column" layout-padding="" ng-cloak="">
+                        <md-content class="md-no-momentum">
+                            <md-input-container class="md-icon-float md-block">
+                                <input placeholder="Name" type="text" ng-required="true" ng-model="person.Name">
+                            </md-input-container>
 
-                                <md-input-container class="md-block">
-                                    <input type="text" placeholder="Phone Number" ng-model="person.Mobile">
-                                </md-input-container>
+                            <md-input-container class="md-block">
+                                <input type="text" placeholder="Phone Number" ng-model="person.Mobile">
+                            </md-input-container>
 
-                                <md-input-container class="md-block">
-                                    <input type="email" placeholder="Email" ng-model="person.Email">
-                                </md-input-container>
-                            </md-content>
-                        </div>
-                </md-card-content>
-                </md-card>
-
+                            <md-input-container class="md-block">
+                                <input type="email" placeholder="Email" ng-model="person.Email">
+                            </md-input-container>
+                        </md-content>
+                    </div>
+            </md-card-content>
+            </md-card>
         </md-dialog-content>
 
         <md-dialog-actions layout="row">

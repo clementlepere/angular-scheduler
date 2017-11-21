@@ -1,5 +1,5 @@
 /*jshint esversion: 6 */
-angular.module('demoApp', ['ngAnimate', 'weeklyScheduler', 'weeklySchedulerI18N', 'ngMaterial', 'ngMessages', 'personService'])
+angular.module('demoApp', ['ngAnimate', 'weeklyScheduler', 'weeklySchedulerI18N', 'ngMaterial', 'ngMessages', 'vacationService', 'personService'])
 
   .config(['weeklySchedulerLocaleServiceProvider', function (localeServiceProvider) {
     localeServiceProvider.configure({
@@ -17,8 +17,8 @@ angular.module('demoApp', ['ngAnimate', 'weeklyScheduler', 'weeklySchedulerI18N'
     });
   }])
 
-  .controller('DemoController', ['$scope', '$timeout', 'weeklySchedulerLocaleService', '$log', '$mdDialog', 'PersonService',
-    function ($scope, $timeout, localeService, $log, $mdDialog, PersonService) {
+  .controller('DemoController', ['$scope', '$timeout', 'weeklySchedulerLocaleService', '$log', '$mdDialog', 'VacationService', 'PersonService',
+    function ($scope, $timeout, localeService, $log, $mdDialog, VacationService, PersonService) {
       $scope.status = '  ';
       $scope.customFullscreen = false;
 
@@ -30,8 +30,8 @@ angular.module('demoApp', ['ngAnimate', 'weeklyScheduler', 'weeklySchedulerI18N'
       getPersons();
 
       $scope.createVacation = function (ev) {
-        var add = $mdDialog.confirm({
-          controller: CreateVacation,
+        let add = $mdDialog.confirm({
+          controller: CreateVacationController,
           templateUrl: 'js/demo-app.create.html',
           parent: angular.element(document.body),
           targetEvent: ev,
@@ -41,14 +41,61 @@ angular.module('demoApp', ['ngAnimate', 'weeklyScheduler', 'weeklySchedulerI18N'
         });
         $mdDialog.show(add);
 
-        function CreateVacation($scope, $mdDialog, persons) {
+        function CreateVacationController($scope, $mdDialog, persons) {
           $scope.persons = persons;
+          $scope.vacation = {
+            StartDate: '',
+            EndDate: '',
+            PersonId: ''
+          };
           $scope.getSelectedText = function () {
-            console.log($scope.selectedPerson);
             if ($scope.selectedPerson !== undefined) {
+              $scope.vacation.PersonId = $scope.selectedPerson.Id;
               return 'You have selected: ' + $scope.selectedPerson.Name;
             } else {
               return 'Please select a person';
+            }
+          };
+
+          this.vacation = $scope.vacation;
+          $scope.myDate = new Date();
+          this.myDate = $scope.myDate;
+          $scope.minDate = new Date(
+            this.myDate.getFullYear(),
+            this.myDate.getMonth() - 2,
+            this.myDate.getDate()
+          );
+
+          $scope.maxDate = new Date(
+            this.myDate.getFullYear(),
+            this.myDate.getMonth() + 2,
+            this.myDate.getDate()
+          );
+
+          $scope.noWeekendsPredicate = function (date) {
+            let day = date.getDay();
+            return !(day === 0 || day === 6);
+          };
+
+          $scope.endDateAfterStartDatePredicate = function (startDate, endDate) {
+            if (endDate < startDate) {
+              return -0;
+            } else {
+              return 0;
+            }
+          };
+
+          $scope.addVacation = function (vacation) {
+            if (vacation.EndDate > vacation.StartDate) {
+              moment(vacation.EndDate).format('YYYY-MM-DD');
+              moment(vacation.StartDate).format('YYYY-MM-DD');
+              VacationService.create(vacation).then(() => {
+                console.log('vacation created');
+                // addPersonInList(person);
+                getPersons();
+              });
+            } else {
+              return 'End date must be superior to start date';
             }
           };
 
@@ -59,7 +106,7 @@ angular.module('demoApp', ['ngAnimate', 'weeklyScheduler', 'weeklySchedulerI18N'
       };
 
       $scope.addNewPerson = function (ev) {
-        var add = $mdDialog.confirm({
+        let add = $mdDialog.confirm({
           controller: AddController,
           templateUrl: 'js/demo-app.add.html',
           parent: angular.element(document.body),
@@ -78,23 +125,22 @@ angular.module('demoApp', ['ngAnimate', 'weeklyScheduler', 'weeklySchedulerI18N'
             Mobile: ''
           };
 
+          $scope.cancel = function () {
+            $mdDialog.cancel();
+          };
+
           $scope.addPerson = function (person) {
-            console.log('person:' + person.Name);
             PersonService.create(person).then(() => {
               console.log('person created');
               addPersonInList(person);
               // getPersons();
             });
-
-            $scope.cancel = function () {
-              $mdDialog.cancel();
-            };
           };
         }
       };
 
       $scope.deletePersons = function (ev) {
-        var confirm = $mdDialog.confirm({
+        let confirm = $mdDialog.confirm({
           controller: DeleteController,
           templateUrl: 'js/demo-app.delete.html',
           parent: angular.element(document.body),
@@ -114,35 +160,48 @@ angular.module('demoApp', ['ngAnimate', 'weeklyScheduler', 'weeklySchedulerI18N'
               deletePersonInList(index);
             });
           };
-          
+
           $scope.cancel = function () {
             $mdDialog.cancel();
           };
         }
       };
-
+      
       function deletePersonInList(index) {
         $timeout(function () {
           $scope.model.items.splice(index, 1);
         }, 100);
       }
 
+      function addVacationInPerson(person) {
+        if (person.Vacation && person.Vacation.length > 0) {
+          for (let y = 0; y < $scope.model.items.length; y++) {
+            if ($scope.model.items[y].id === person.Id) {
+              for (let i = 0; i < person.Vacation.length; i++) {
+                $scope.model.items[y].schedules[i] = {
+                  start: moment(person.Vacation[i].StartDate).toDate(),
+                  end: moment(person.Vacation[i].EndDate).toDate()
+                };
+              }
+            }
+          }
+        }
+      }
+
       function addPersonInList(person) {
         $timeout(function () {
           $scope.model.items = $scope.model.items.concat(
             [{
+              id: person.Id,
               label: person.Name,
               schedules: [{
-                  start: moment('2017-05-03').toDate(),
-                  end: moment('2018-02-01').toDate()
-                },
-                // {
-                //   start: moment('2016-11-20').toDate(),
-                //   end: moment('2017-02-01').toDate()
-                // }
-              ]
-            }]);
-        }, 100);
+                start: moment('2017-05-03').toDate(),
+                end: moment('2017-06-01').toDate()
+              }]
+            }]
+          );
+          addVacationInPerson(person);
+        }, 500);
       }
 
       function getPersons() {
@@ -159,6 +218,7 @@ angular.module('demoApp', ['ngAnimate', 'weeklyScheduler', 'weeklySchedulerI18N'
           .catch(function (error) {
             $scope.status = 'Unable to load customer data: ' + error.message;
           });
+
       }
 
       this.doSomething = function (itemIndex, scheduleIndex, scheduleValue) {

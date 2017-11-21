@@ -1,4 +1,4 @@
-angular.module('vacationService', []).factory('VacationService ', ['$http', function ($http) {
+angular.module('vacationService', []).factory('VacationService', ['$http', function ($http) {
 
     var urlBase = 'http://localhost:63915/api/vacations/';
     var VacationService = {};
@@ -6,26 +6,26 @@ angular.module('vacationService', []).factory('VacationService ', ['$http', func
         return $http.get(urlBase);
     };  
 
-    VacationService.delete = function (person) {
+    VacationService.delete = function (vacation) {
         return $http({
-            url: urlBase + person.Id,
+            url: urlBase + vacation.Id,
             method: 'DELETE'
         });
     };
 
-    VacationService.update = function (person) {
+    VacationService.update = function (vacation) {
         return $http({
-            url: urlBase + person.Id,
+            url: urlBase + vacation.Id,
             method: 'PUT',
-            data: person
+            data: vacation
         });
     };
 
-    VacationService.create = function (person) {
+    VacationService.create = function (vacation) {
         return $http({
             url: urlBase,
             method: 'POST',
-            data: person
+            data: vacation
         });
     };
     return VacationService;

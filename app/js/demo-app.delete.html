@@ -1,25 +1,24 @@
 <md-dialog type="text/ng-template" id="demo-app.delete.html" flex="50">
-    <form class="scheduler-modal">
+    <form class="scheduler-modal md-dialog-content">
         <md-dialog-content>
-            <div class="md-dialog-content">
-                <h2 class="md-display-1">Edit persons</h2>
-                <md-card-content>
-                    <div layout="column">
-                        <md-content layout layout-align="center center">
-                            <md-list flex>
-                                <md-list-item class="md-3-line" ng-repeat="person in persons" ng-app="demoApp">
-                                    <div class="md-list-item-text" layout="column">
-                                        <h3 class="shortText md-display-1">{{ person.Name }}</h3>
-                                        <h4 class="shortText md-headline">{{ person.Email }}</h4>
-                                        <p class="shortText md-title">{{ person.Mobile }}</p>
-                                    </div>
-                                    <md-icon class="scheduler-modal--delete" title="Delete" ng-click="deletePerson(person, $index)"></md-icon>
-                                </md-list-item>
-                            </md-list>
-                        </md-content>
-                    </div>
-                </md-card-content>
-                </md-card>
+            <h2 class="md-display-1">Edit persons</h2>
+            <md-card-content>
+                <div layout="column">
+                    <md-content layout layout-align="center center">
+                        <md-list flex>
+                            <md-list-item class="md-3-line" ng-repeat="person in persons" ng-app="demoApp">
+                                <div class="md-list-item-text" layout="column">
+                                    <h3 class="shortText md-display-1">{{ person.Name }}</h3>
+                                    <h4 class="shortText md-headline">{{ person.Email }}</h4>
+                                    <p class="shortText md-title">{{ person.Mobile }}</p>
+                                </div>
+                                <md-icon class="scheduler-modal--delete" title="Delete" ng-click="deletePerson(person, $index)"></md-icon>
+                            </md-list-item>
+                        </md-list>
+                    </md-content>
+                </div>
+            </md-card-content>
+            </md-card>
         </md-dialog-content>
 
         <md-dialog-actions layout="row" layout-align="space-around center">
