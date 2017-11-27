@@ -37,6 +37,9 @@ angular.module('weeklyScheduler')
       monthDiff: function (start, end) {
         return end.clone().endOf(MONTH).diff(start.clone().startOf(MONTH), MONTH) + 1;
       },
+      dayDiff: function (start, end) {
+        return end.diff(start, DAY) + 1;
+      },
       monthDistribution: function (minDate, maxDate) {
         var i, result = [];
         var startDate = minDate.clone();
@@ -44,16 +47,22 @@ angular.module('weeklyScheduler')
         var monthDiff = this.monthDiff(startDate, endDate);
         var dayDiff = endDate.diff(startDate, DAY);
 
-        var total = 0, totalDays = 0;
+        var total = 0,
+          totalDays = 0;
         for (i = 0; i < monthDiff; i++) {
           var startOfMonth = i === 0 ? startDate : startDate.add(1, MONTH).startOf(MONTH);
           var endOfMonth = i === monthDiff - 1 ? endDate : startDate.clone().endOf(MONTH);
           var dayInMonth = endOfMonth.diff(startOfMonth, DAY) + (i !== monthDiff - 1 && 1);
           var width = Math.floor(dayInMonth / dayDiff * 1E8) / 1E6;
 
-          result.push({start: startOfMonth.clone(), end: endOfMonth.clone(), width: width});
+          result.push({
+            start: startOfMonth.clone(),
+            end: endOfMonth.clone(),
+            width: width
+          });
 
-          totalDays += dayInMonth; total += width;
+          totalDays += dayInMonth;
+          total += width;
           // console.log(totalDays);
         }
         return result;

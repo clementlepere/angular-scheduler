@@ -29,8 +29,11 @@ angular.module('weeklyScheduler')
 
       // Calculate nb of weeks covered by minDate => maxDate
       var nbWeeks = timeService.weekDiff(minDate, maxDate);
-
-      var result = angular.extend(options, {minDate: minDate, maxDate: maxDate, nbWeeks: nbWeeks});
+      var result = angular.extend(options, {
+        minDate: minDate,
+        maxDate: maxDate,
+        nbWeeks: nbWeeks
+      });
       // Log configuration
       $log.debug('Weekly Scheduler configuration:', result);
 
@@ -102,7 +105,7 @@ angular.module('weeklyScheduler')
           // Install mouse scrolling event listener for H scrolling
           mouseScroll(el, 20);
 
-          scope.$on(CLICK_ON_A_CELL, function(e, data) {
+          scope.$on(CLICK_ON_A_CELL, function (e, data) {
             zoomInACell(el, e, data);
           });
 

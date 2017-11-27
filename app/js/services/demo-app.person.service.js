@@ -2,6 +2,18 @@ angular.module('personService', []).factory('PersonService', ['$http', function 
 
     var urlBase = 'http://localhost:63915/api/persons/';
     var PersonService = {};
+    
+    PersonService.save = function (data) {
+        return $http({
+            url: urlBase + 'Save',
+            method: 'POST',
+            data: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+    };
+
     PersonService.get = function () {
         return $http.get(urlBase);
     };  

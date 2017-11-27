@@ -1,22 +1,6 @@
 /*jshint esversion: 6 */
 angular.module('demoApp', ['ngAnimate', 'weeklyScheduler', 'weeklySchedulerI18N', 'ngMaterial', 'ngMessages', 'vacationService', 'personService'])
 
-  .config(['weeklySchedulerLocaleServiceProvider', function (localeServiceProvider) {
-    localeServiceProvider.configure({
-      doys: {
-        'es-es': 4
-      },
-      lang: {
-        'es-es': {
-          month: 'Mes',
-          weekNb: 'número de la semana',
-          addNew: 'Añadir'
-        }
-      },
-      localeLocationPattern: '/vendor/angular-i18n/angular-locale_{{locale}}.js'
-    });
-  }])
-
   .controller('DemoController', ['$scope', '$timeout', 'weeklySchedulerLocaleService', '$log', '$mdDialog', 'VacationService', 'PersonService',
     function ($scope, $timeout, localeService, $log, $mdDialog, VacationService, PersonService) {
       $scope.status = '  ';
@@ -28,6 +12,63 @@ angular.module('demoApp', ['ngAnimate', 'weeklyScheduler', 'weeklySchedulerI18N'
       };
 
       getPersons();
+
+      $scope.selectedFile = null;
+      $scope.msg = '';
+
+
+      // $scope.loadFile = function (files) {
+
+      //   $scope.$apply(function () {
+
+      //     $scope.selectedFile = files[0];
+
+      //   });
+
+      // };
+
+      // $scope.handleFile = function () {
+
+      //   var file = $scope.selectedFile;
+
+      //   if (file) {
+
+      //     var reader = new FileReader();
+
+      //     reader.onload = function (e) {
+
+      //       var data = e.target.result;
+
+      //       var workbook = XLSX.read(data, {
+      //         type: 'binary'
+      //       });
+
+      //       var first_sheet_name = workbook.SheetNames[0];
+
+      //       var dataObjects = XLSX.utils.sheet_to_json(workbook.Sheets[first_sheet_name]);
+
+      //       //console.log(excelData);  
+
+      //       if (dataObjects.length > 0) {
+
+
+      //         $scope.save(dataObjects);
+
+
+      //       } else {
+      //         $scope.msg = "Error : Something Wrong !";
+      //       }
+
+      //     }
+
+      //     reader.onerror = function (ex) {
+
+      //     }
+
+      //     reader.readAsBinaryString(file);
+      //   }
+      // }
+
 
       $scope.createVacation = function (ev) {
         let add = $mdDialog.confirm({
@@ -132,8 +173,7 @@ angular.module('demoApp', ['ngAnimate', 'weeklyScheduler', 'weeklySchedulerI18N'
           $scope.addPerson = function (person) {
             PersonService.create(person).then(() => {
               console.log('person created');
-              addPersonInList(person);
-              // getPersons();
+              getPersons();
             });
           };
         }
@@ -166,7 +206,7 @@ angular.module('demoApp', ['ngAnimate', 'weeklyScheduler', 'weeklySchedulerI18N'
           };
         }
       };
-      
+
       function deletePersonInList(index) {
         $timeout(function () {
           $scope.model.items.splice(index, 1);
@@ -179,6 +219,7 @@ angular.module('demoApp', ['ngAnimate', 'weeklyScheduler', 'weeklySchedulerI18N'
             if ($scope.model.items[y].id === person.Id) {
               for (let i = 0; i < person.Vacation.length; i++) {
                 $scope.model.items[y].schedules[i] = {
+                  editable: true,
                   start: moment(person.Vacation[i].StartDate).toDate(),
                   end: moment(person.Vacation[i].EndDate).toDate()
                 };
@@ -194,14 +235,15 @@ angular.module('demoApp', ['ngAnimate', 'weeklyScheduler', 'weeklySchedulerI18N'
             [{
               id: person.Id,
               label: person.Name,
+              editable: true,
               schedules: [{
-                start: moment('2017-05-03').toDate(),
-                end: moment('2017-06-01').toDate()
+                start: moment('2017-05-30').toDate(),
+                end: moment('2050-06-01').toDate()
               }]
             }]
           );
           addVacationInPerson(person);
-        }, 500);
+        }, 100);
       }
 
       function getPersons() {
@@ -218,7 +260,6 @@ angular.module('demoApp', ['ngAnimate', 'weeklyScheduler', 'weeklySchedulerI18N'
           .catch(function (error) {
             $scope.status = 'Unable to load customer data: ' + error.message;
           });
-
       }
 
       this.doSomething = function (itemIndex, scheduleIndex, scheduleValue) {

@@ -6,12 +6,16 @@ angular.module('weeklyScheduler')
       require: ['^weeklyScheduler', 'ngModel'],
       templateUrl: 'ng-weekly-scheduler/views/weekly-slot.html',
       link: function (scope, element, attrs, ctrls) {
-        var schedulerCtrl = ctrls[0], ngModelCtrl = ctrls[1];
+        var schedulerCtrl = ctrls[0],
+          ngModelCtrl = ctrls[1];
         var conf = schedulerCtrl.config;
         var index = scope.$parent.$index;
         var containerEl = element.parent();
         var resizeDirectionIsStart = true;
-        var valuesOnDragStart = {start: scope.schedule.start, end: scope.schedule.end};
+        var valuesOnDragStart = {
+          start: scope.schedule.start,
+          end: scope.schedule.end
+        };
 
         var pixelToVal = function (pixel) {
           var percent = pixel / containerEl[0].clientWidth;
@@ -89,7 +93,10 @@ angular.module('weeklyScheduler')
             containerEl.addClass('dragging');
             containerEl.attr('no-add', true);
 
-            valuesOnDragStart = {start: ngModelCtrl.$viewValue.start, end: ngModelCtrl.$viewValue.end};
+            valuesOnDragStart = {
+              start: ngModelCtrl.$viewValue.start,
+              end: ngModelCtrl.$viewValue.end
+            };
           };
 
           scope.endDrag = function () {

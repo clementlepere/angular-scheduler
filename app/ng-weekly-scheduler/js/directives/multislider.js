@@ -45,7 +45,10 @@ angular.module('weeklyScheduler')
             if (!item.schedules) {
               item.schedules = [];
             }
-            item.schedules.push({start: startDate.toDate(), end: endDate.toDate()});
+            item.schedules.push({
+              start: startDate.toDate(),
+              end: endDate.toDate()
+            });
           });
         };
 

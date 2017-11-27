@@ -2,9 +2,21 @@ angular.module('vacationService', []).factory('VacationService', ['$http', funct
 
     var urlBase = 'http://localhost:63915/api/vacations/';
     var VacationService = {};
+
+    VacationService.save = function (data) {
+        return $http({
+            url: urlBase + 'Save',
+            method: 'POST',
+            data: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+    };
+
     VacationService.get = function () {
         return $http.get(urlBase);
-    };  
+    };
 
     VacationService.delete = function (vacation) {
         return $http({

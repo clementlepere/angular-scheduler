@@ -14,11 +14,12 @@ angular.module('weeklyScheduler')
     function doGrid(scope, element, attrs, model) {
       var i;
       // Calculate week width distribution
-      var tickcount = model.nbWeeks;
+      var tickcount = (model.nbWeeks);
 
-      // console.log('model:', model); 
       var ticksize = 100 / tickcount;
-      var gridItemEl = GRID_TEMPLATE.css({width: ticksize + '%'});
+      var gridItemEl = GRID_TEMPLATE.css({
+        width: ticksize + '%'
+      });
       var now = model.minDate.clone().startOf('week');
 
       // Clean element
@@ -32,7 +33,6 @@ angular.module('weeklyScheduler')
         }
         element.append(child);
       }
-
     }
 
     return {

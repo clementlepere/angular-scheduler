@@ -22,39 +22,39 @@
 
       <h2 id="demo" class="md-display-1"> Demo</h2>
 
-      <!-- <div> -->
-      <!-- <label for="language">Choose your language:</label> -->
-      <!-- <select id="language" ng-model="model.locale" ng-change="demo.onLocaleChange()">
-          <option value="en-us" selected>us</option>
-          <option value="en-gb" selected>gb</option>
-          <option value="fr-fr">fr</option>
-          <option value="de-de">de</option>
-          <option value="es-es">es (lang customized in demo)</option>
-        </select>
-      </div> -->
-
       <weekly-scheduler class="scheduler" items="model.items" on-change="ctrl.doSomething" on-delete="ctrl.doSomething" options="model.options">
         <div class="srow">{{::$index + 1}}. {{item.label}}</div>
       </weekly-scheduler>
       <div layout="row" layout-align="space-between center">
         <md-button class="md-raised md-primary md-cornered" role="button" ng-click="deletePersons()">Delete persons</md-button>
-        <md-button class="md-raised md-primary md-cornered" role="button" ng-click="createVacation()">Add vacations</md-button>        
+        <md-button class="md-raised md-primary md-cornered" role="button" ng-click="createVacation()">Add vacations</md-button>
         <md-button class="md-raised md-primary md-cornered" role="button" ng-click="addNewPerson()">Add new person</md-button>
+        <md-button class="md-raised md-primary md-cornered" type="file" ng-cilck="handleFile()">Import Excel</md-button>
+      </div>
+
+      <div class="container" style="margin-top:50px;">
+        <input type="file" name="file" class="form-control" onchange="angular.element(this).scope().loadFile(this.files)" />
+        <br/>
+        <br/>
+        <input type="button" value="Import Data" class="btn btn-default" ng-click="handleFile()" />
+        <br/>
+        <p ng-bind="msg"></p>
       </div>
     </div>
-  </div>
-  <script src="/vendor/angular/angular.js"></script>
-  <script src="/vendor/angular-animate/angular-animate.js"></script>
-  <script src="/vendor/angular-dynamic-locale/dist/tmhDynamicLocale.js"></script>
-  <script src="/vendor/moment/moment.js"></script>
-  <script src="/js/ng-weekly-scheduler.js"></script>
-  <script src="/vendor/angular-aria/angular-aria.js"></script>
-  <script src="/vendor/angular-animate/angular-animate.js"></script>
-  <script src="/vendor/angular-material/angular-material.js"></script>
-  <script src="/vendor/angular-messages/angular-messages.js"></script>
-  <script src="/js/demo-app.js"></script>
-  <script src="/js/demo-app.person.service.js"></script>
-  <script src="/js/demo-app.vacation.service.js"></script>  
+    <script src="/vendor/angular/angular.js"></script>
+    <script src="/vendor/angular-animate/angular-animate.js"></script>
+    <script src="/vendor/angular-dynamic-locale/dist/tmhDynamicLocale.js"></script>
+    <script src="/vendor/moment/moment.js"></script>
+    <script src="/js/ng-weekly-scheduler.js"></script>
+    <script src="/vendor/angular-aria/angular-aria.js"></script>
+    <script src="/vendor/angular-animate/angular-animate.js"></script>
+    <script src="/vendor/angular-material/angular-material.js"></script>
+    <script src="/vendor/angular-messages/angular-messages.js"></script>
+    <script src="/vendor/xlsx.js"></script>        
+    <script src="/js/demo-app.js"></script>
+    <script src="/js/services/demo-app.person.service.js"></script>
+    <script src="/js/services/demo-app.vacation.service.js"></script>
+    <script src="/vendorjs/jszip.js"></script>
 </body>
 
 </html>
